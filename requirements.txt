@@ -1,2 +1,7 @@
 fastapi
 uvicorn
+tensorflow
+numpy
+imutils
+sklearn
+keras
