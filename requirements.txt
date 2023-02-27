@@ -5,3 +5,5 @@ numpy
 imutils
 sklearn
 keras
+pydantic
+uvicorn

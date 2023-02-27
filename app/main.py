@@ -12,7 +12,6 @@ app = FastAPI()
 
 MODEL_FILENAME = "captcha_model.hdf5"
 MODEL_LABELS_FILENAME = "model_labels.dat"
-CAPTCHA_IMAGE_FOLDER = "generated_captcha_images_new"
 
 # Load up the model labels (so we can translate model predictions to actual letters)
 with open(MODEL_LABELS_FILENAME, "rb") as f:
@@ -21,7 +20,6 @@ with open(MODEL_LABELS_FILENAME, "rb") as f:
 # Load the trained neural network
 model = load_model(MODEL_FILENAME)
 
-
 @app.get("/")
 def hello_world():
     return {"message": "OK"}
@@ -29,17 +27,12 @@ def hello_world():
 
 @app.post("/solve-captcha/")
 async def create_upload_file(file: UploadFile = File()):
-
     try:
-
         file_bytes = np.asarray(bytearray(file.file.read()), dtype=np.uint8)
 
         image = cv2.imdecode(file_bytes , cv2.IMREAD_UNCHANGED)
 
-
         # Load the image and convert it to grayscale
-        # image = cv2.imread(captcha_image_file)
-
         result_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         # Add some extra padding around the image
@@ -122,5 +115,5 @@ async def create_upload_file(file: UploadFile = File()):
         # Print the captcha's text
         captcha_text = "".join(predictions)
         return {"message": captcha_text}
-    except Exception as e:  # work on python 3.x
+    except Exception as e:
         return {"message": str(e)}
