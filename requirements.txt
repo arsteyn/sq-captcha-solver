@@ -6,4 +6,3 @@ imutils
 sklearn
 keras
 pydantic
-uvicorn
