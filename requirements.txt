@@ -5,4 +5,4 @@ numpy
 imutils
 sklearn
 keras
-opencv-python
+opencv-python-headless
