@@ -29,7 +29,7 @@ def hello_world():
 
 
 @app.post("/solve-captcha/")
-def create_upload_file(file: UploadFile = File()):
+async def create_upload_file(file: UploadFile = File()):
     try:
         file_bytes = np.asarray(bytearray(file.file.read()), dtype=np.uint8)
 
@@ -112,8 +112,8 @@ def create_upload_file(file: UploadFile = File()):
             predictions.append(letter)
 
             # draw the prediction on the output image
-            cv2.rectangle(output, (x - 2, y - 2), (x + w + 4, y + h + 4), (0, 255, 0), 1)
-            cv2.putText(output, letter, (x - 5, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 0), 2)
+            # cv2.rectangle(output, (x - 2, y - 2), (x + w + 4, y + h + 4), (0, 255, 0), 1)
+            # cv2.putText(output, letter, (x - 5, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 0), 2)
 
         # Print the captcha's text
         captcha_text = "".join(predictions)
