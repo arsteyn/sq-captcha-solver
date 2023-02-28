@@ -3,6 +3,6 @@ uvicorn
 tensorflow
 numpy
 imutils
-sklearn
+scikit-learn
 keras
 opencv-python-headless
