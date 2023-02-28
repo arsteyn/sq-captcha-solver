@@ -6,12 +6,15 @@ from keras.models import load_model
 import pickle
 import numpy as np
 # from helpers import resize_to_fit
+from pathlib import Path
 
 
 app = FastAPI()
 
-MODEL_FILENAME = "./captcha_model.hdf5"
-MODEL_LABELS_FILENAME = "./model_labels.dat"
+script_location = Path(__file__).absolute().parent
+
+MODEL_FILENAME = script_location / "captcha_model.hdf5"
+MODEL_LABELS_FILENAME = script_location / "model_labels.dat"
 
 # Load up the model labels (so we can translate model predictions to actual letters)
 with open(MODEL_LABELS_FILENAME, "rb") as f:
