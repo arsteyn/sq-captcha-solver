@@ -10,8 +10,8 @@ import numpy as np
 
 app = FastAPI()
 
-MODEL_FILENAME = "/captcha_model.hdf5"
-MODEL_LABELS_FILENAME = "/model_labels.dat"
+MODEL_FILENAME = "./captcha_model.hdf5"
+MODEL_LABELS_FILENAME = "./model_labels.dat"
 
 # Load up the model labels (so we can translate model predictions to actual letters)
 with open(MODEL_LABELS_FILENAME, "rb") as f:
@@ -26,7 +26,7 @@ def hello_world():
 
 
 @app.post("/solve-captcha/")
-async def create_upload_file(file: UploadFile = File()):
+def create_upload_file(file: UploadFile = File()):
     try:
         file_bytes = np.asarray(bytearray(file.file.read()), dtype=np.uint8)
 

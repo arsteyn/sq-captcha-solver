@@ -9,3 +9,4 @@ services:
     ports:
       - '8000:8000'
     restart: "no"
+    platform: linux/amd64
