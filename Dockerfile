@@ -16,6 +16,7 @@ RUN <<EOF
 apt-get update
 apt-get install -y --no-install-recommends git
 apt-get install libgl1
+apt-get install ffmpeg libsm6 libxext6
 EOF
 
 RUN <<EOF
