@@ -15,7 +15,7 @@ FROM builder as dev-envs
 RUN <<EOF
 apt-get update
 apt-get install -y --no-install-recommends git
-apt-get install python3-opencv
+apt-get install libgl1
 EOF
 
 RUN <<EOF
