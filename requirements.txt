@@ -5,3 +5,4 @@ numpy
 imutils
 sklearn
 keras
+opencv-python
