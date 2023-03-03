@@ -1,11 +1,9 @@
 import imutils
-import numpy
 from fastapi import FastAPI, UploadFile, File
 import cv2
 from keras.models import load_model
 import pickle
 import numpy as np
-# from helpers import resize_to_fit
 from pathlib import Path
 
 
@@ -29,7 +27,7 @@ def hello_world():
 
 
 @app.post("/solve-captcha/")
-async def create_upload_file(file: UploadFile = File()):
+def create_upload_file(file: UploadFile = File()):
     try:
         file_bytes = np.asarray(bytearray(file.file.read()), dtype=np.uint8)
 
@@ -86,7 +84,7 @@ async def create_upload_file(file: UploadFile = File()):
         letter_image_regions = sorted(letter_image_regions, key=lambda x: x[0])
 
         # Create an output image and a list to hold our predicted letters
-        output = cv2.merge([result_image] * 3)
+        # output = cv2.merge([result_image] * 3)
         predictions = []
 
         # loop over the lektters
@@ -110,10 +108,6 @@ async def create_upload_file(file: UploadFile = File()):
             # Convert the one-hot-encoded prediction back to a normal letter
             letter = lb.inverse_transform(prediction)[0]
             predictions.append(letter)
-
-            # draw the prediction on the output image
-            # cv2.rectangle(output, (x - 2, y - 2), (x + w + 4, y + h + 4), (0, 255, 0), 1)
-            # cv2.putText(output, letter, (x - 5, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 0), 2)
 
         # Print the captcha's text
         captcha_text = "".join(predictions)
