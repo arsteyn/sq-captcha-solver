@@ -58,7 +58,7 @@ def hello_world():
 async def create_upload_file(file: UploadFile = File()):
     try:
         # Load the image and convert it to grayscale
-        file_bytes = np.asarray(bytearray(await file.file.read()), dtype=np.uint8)
+        file_bytes = np.asarray(bytearray(file.file.read()), dtype=np.uint8)
         image = cv2.imdecode(file_bytes, cv2.IMREAD_UNCHANGED)
 
         result_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
