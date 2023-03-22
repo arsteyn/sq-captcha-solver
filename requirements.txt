@@ -6,3 +6,4 @@ imutils
 scikit-learn
 keras
 opencv-python-headless
+motor

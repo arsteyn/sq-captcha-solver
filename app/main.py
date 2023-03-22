@@ -6,6 +6,8 @@ import pickle
 import numpy as np
 from pathlib import Path
 import concurrent.futures
+from motor.motor_asyncio import AsyncIOMotorClient
+from motor.aiohttp import AIOHTTPGridFS
 
 app = FastAPI()
 
@@ -17,6 +19,8 @@ MODEL_LABELS_FILENAME = script_location / "model_labels.dat"
 model = None
 lb = None
 
+db_client = None
+grid_fs_bucket = None
 
 async def load_model_and_labels():
     global model
@@ -30,9 +34,19 @@ async def load_model_and_labels():
     model = load_model(MODEL_FILENAME)
 
 
+async def connect_db():
+    global db_client
+    global grid_fs_bucket
+
+    db_client = AsyncIOMotorClient("mongodb://localhost:27017")
+    db = db_client["your_database_name"]
+    grid_fs_bucket = AIOHTTPGridFS(db)
+
+
 @app.on_event("startup")
 async def startup_event():
     await load_model_and_labels()
+    await connect_db()
 
 
 @app.get("/")
@@ -41,13 +55,12 @@ def hello_world():
 
 
 @app.post("/solve-captcha/")
-def create_upload_file(file: UploadFile = File()):
+async def create_upload_file(file: UploadFile = File()):
     try:
         # Load the image and convert it to grayscale
-        file_bytes = np.asarray(bytearray(file.file.read()), dtype=np.uint8)
+        async with file.file as file_stream:
+            file_bytes = np.asarray(bytearray(await file_stream.read()), dtype=np.uint8)
         image = cv2.imdecode(file_bytes, cv2.IMREAD_UNCHANGED)
-
-        # (rest of the function unchanged)
 
         result_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
