@@ -11,3 +11,7 @@ services:
     restart: always
     platform: linux/amd64
 #    platform: linux/arm64/v8
+    logging:
+              driver: "json-file"
+              options:
+                  max-size: "1m"
