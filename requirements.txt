@@ -7,3 +7,4 @@ scikit-learn
 keras
 opencv-python-headless
 motor
+aiohttp
