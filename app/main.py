@@ -58,8 +58,7 @@ def hello_world():
 async def create_upload_file(file: UploadFile = File()):
     try:
         # Load the image and convert it to grayscale
-        async with file.file as file_stream:
-            file_bytes = np.asarray(bytearray(await file_stream.read()), dtype=np.uint8)
+        file_bytes = np.asarray(bytearray(await file.file.read()), dtype=np.uint8)
         image = cv2.imdecode(file_bytes, cv2.IMREAD_UNCHANGED)
 
         result_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -115,6 +114,7 @@ async def create_upload_file(file: UploadFile = File()):
         return {"message": captcha_text}
     except Exception as e:
         return {"message": str(e)}
+
     finally:
         file.file.close()
 
