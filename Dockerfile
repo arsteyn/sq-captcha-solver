@@ -2,6 +2,8 @@
 
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9-slim AS builder
 
+ENV WEB_CONCURRENCY=1
+
 WORKDIR /app
 
 COPY requirements.txt ./
