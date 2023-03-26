@@ -16,3 +16,8 @@ services:
       options:
         max-size: "1m"
         max-file: "3"
+  restarter:
+    image: docker:cli
+    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
+    command: [ "/bin/sh", "-c", "while true; do sleep 600; docker restart fastapi-application; done" ]
+    restart: unless-stopped
